@@ -40,13 +40,11 @@ ourApp.get("/Book/:bookID",(req,res) => {
 //description : to get a book base on catagory
 //access      : public
 //method      : GET
-//params      : catagory
+//params      : category
 //body        : none
-ourApp.get("/Book/c/:catagory",(req,res) => {
-     const getBook = Database.Book.filter(
-          (book) => book.catagory.includes(req.params,catagory)
-     );
-     return res.json({book : getBook});
+ourApp.get("/Book/c/:category",(req,res) => {
+     const getBook = Database.Book.filter((book) => book.category.includes(req.params.category));
+     return res.json({book:getBook});
 });
 
 //4000 is port number
