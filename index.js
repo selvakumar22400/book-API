@@ -47,5 +47,26 @@ ourApp.get("/Book/c/:category",(req,res) => {
      return res.json({book:getBook});
 });
 
+//rought      : /book/a/:authors
+//description : to get a book base on authors
+//access      : public
+//method      : GET
+//params      : authors
+//body        : none
+ourApp.get("/Book/a/:authors",(req,res) => {
+     const getBook = Database.Book.filter((book) => book.authors.includes(req.params.authors));
+     return res.json({book:getBook});
+});
+
+//rought      : /author
+//description : to get all author
+//access      : public
+//method      : GET
+//params      : none
+//body        : none
+ourApp.get("/author",(req,res) => {
+     return res.json({Author:Database.Author});
+});
+
 //4000 is port number
 ourApp.listen(4000, () => console.log("server is running....!"));
