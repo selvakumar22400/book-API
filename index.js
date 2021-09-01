@@ -112,15 +112,44 @@ ourApp.post("/Publication/new",(req,res) => {
 //params : none
 //body : none
 ourApp.put("/book/update/:isbn",(req,res) => {
-     const updatedBook = req.body;
-     const isbn = req.params;
-     const getBook = Database.Book.map((book) => 
-     if (book.ISBN === isbnbook.ISBN === isbn) {
-          
-     } ()
-     return (...book ,...updatedBook) );
-
+     const{ updatedBook }= req.body;
+     const {isbn} = req.params;
+     const book = Database.Book.map((book) => {
+          if (book.ISBN === isbn) {
+          return {...book,...updatedBook};              
+          }
+     return book;
+  });
+    return res.json(book);
 });
+
+ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
+     const newAuthor = req.body;
+     const isbn = req.params;
+     const book = Database.Book.forEach((book) => {
+     if (book.ISBN === isbn) {
+          if (!book.authors.includes(newAuthor)) {
+              return book.authors.push(newAuthor);
+          }
+          return book
+     }
+     return book
+     });
+ 
+  
+    const author = Database.Author.forEach((author) => {
+         if (author.id ===  newAuthor) {
+              if (!author.books.includes(isbn)) {
+                   return author.books.push(isbn);
+              }
+              return author
+         }
+         return author;
+
+    });
+    return res.json({books:book , authors : author});
+});
+
 
 //4000 is port number
 ourApp.listen(4000, () => console.log("server is running....!"));
