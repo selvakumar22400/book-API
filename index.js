@@ -105,12 +105,12 @@ ourApp.post("/Publication/new",(req,res) => {
      Database.Author.push(Publication);
      return res.json({ massage : "new Publication is added"});
 });
-//rought : /book/update
+//rought      : /book/update/:isbn
 //description : to update a new book
-//access : public
-//method : put
-//params : none
-//body : none
+//access      : public
+//method      : put
+//params      : isbn
+//body        : none
 ourApp.put("/book/update/:isbn",(req,res) => {
      const{ updatedBook }= req.body;
      const {isbn} = req.params;
@@ -122,11 +122,16 @@ ourApp.put("/book/update/:isbn",(req,res) => {
   });
     return res.json(book);
 });
+//rought      /book/updateAuthor/:isbn
+//description update or get new auhtor
+//access      public
+//method      put
+//params      isbn
 
 ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
-     const newAuthor = req.body;
-     const isbn = req.params;
-     const book = Database.Book.forEach((book) => {
+     const {newAuthor} = req.body;
+     const {isbn} = req.params;
+     Database.Book.map((book) => {
      if (book.ISBN === isbn) {
           if (!book.authors.includes(newAuthor)) {
               return book.authors.push(newAuthor);
@@ -135,19 +140,34 @@ ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
      }
      return book
      });
- 
-  
-    const author = Database.Author.forEach((author) => {
+     
+
+
+
+     Database.Author.map((author) => {
          if (author.id ===  newAuthor) {
               if (!author.books.includes(isbn)) {
                    return author.books.push(isbn);
               }
-              return author
+              return author;
          }
          return author;
 
     });
-    return res.json({books:book , authors : author});
+    return res.json({book:Database.Book ,author: Database.Author});
+});
+
+ourApp.put("/author/update/:id", (req,res) => {
+     const {updateAuthor} = req.body;
+     const {id} = req.params;
+     const author = Database.Author.map((author) => {
+          if (author.id === parseInt(id)) {
+               return{...author, ...updateAuthor};
+          }
+          return author;
+     
+     });
+     return res.json(author);
 });
 
 
