@@ -168,7 +168,7 @@ ourApp.put("/author/update/:id", (req,res) => {
      
      });
      return res.json(author);
-})
+});
 
 
 //4000 is port number
