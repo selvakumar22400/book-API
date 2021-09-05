@@ -131,10 +131,11 @@ ourApp.put("/book/update/:isbn",(req,res) => {
 ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
      const {newAuthor} = req.body;
      const {isbn} = req.params;
-     Database.Book.map((book) => {
+     Database.Book.forEach((book) => {
      if (book.ISBN === isbn) {
           if (!book.authors.includes(newAuthor)) {
-              return book.authors.push(newAuthor);
+               book.authors.push(newAuthor);
+               return book;
           }
           return book
      }
@@ -143,11 +144,11 @@ ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
      
 
 
-
-     Database.Author.map((author) => {
+     Database.Author.forEach((author) => {
          if (author.id ===  newAuthor) {
               if (!author.books.includes(isbn)) {
-                   return author.books.push(isbn);
+                   author.books.push(isbn);
+                   return author;
               }
               return author;
          }
@@ -157,17 +158,23 @@ ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
     return res.json({book:Database.Book ,author: Database.Author});
 });
 
+//rought      : /author/update/:id
+//discripton  : update the author name 
+//method      : put
+//params      : id
+
 ourApp.put("/author/update/:id", (req,res) => {
      const {updateAuthor} = req.body;
      const {id} = req.params;
-     const author = Database.Author.map((author) => {
+     Database.Author.forEach((author) => {
           if (author.id === parseInt(id)) {
-               return{...author, ...updateAuthor};
+               author.name.push(updateAuthor);
+               return author;
           }
           return author;
      
      });
-     return res.json(author);
+     return res.json({author: Database.Author});
 });
 
 
