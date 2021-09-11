@@ -158,24 +158,24 @@ ourApp.put("/book/updateAuthor/:isbn", (req,res) => {
     return res.json({book:Database.Book ,author: Database.Author});
 });
 
-//rought      : /author/update/:id
+//rought      : /author/updatename/:id
 //discripton  : update the author name 
 //method      : put
 //params      : id
+//params in the req.body is allways in string format
 
-ourApp.put("/author/update/:id", (req,res) => {
-     const {updateAuthor} = req.body;
+ourApp.put("/author/updatename/:id", (req,res) => {
+     const {updateAuthorname} = req.body;
      const {id} = req.params;
      Database.Author.forEach((author) => {
-          if (author.id === parseInt(id)) {
-               author.name.push(updateAuthor);
-               return author;
+          if (author.id === id) {
+               return {author,updateAuthorname};
           }
           return author;
      
      });
      return res.json({author: Database.Author});
-})
+});
 
 
 //4000 is port number
