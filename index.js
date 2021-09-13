@@ -186,5 +186,25 @@ const filteredData = Database.Book.filter((book) => book.ISBN !== isbn);
 Database.Book = filteredData;
 return res.json(Database.Book);
 });
+//rought      : /book/delete/:isbn
+//discripton  : delete the author by the isbn and id
+//method      : delete
+//params      : isbn , id
+
+ourApp.delete("/book/author/delete/:isbn/:id",(req,res) => {
+     const {isbn,id} = req.params;
+     Database.Book.forEach((book) => {
+          if(book.ISBN === isbn){
+               if(!book.authors.includes(parseInt(id))){
+                    return book;
+               };
+               return book;
+          };
+          return book;
+     });
+
+     Database
+});
+
 //4000 is port number
 ourApp.listen(4000, () => console.log("server is running....!"));
