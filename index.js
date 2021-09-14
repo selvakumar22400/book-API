@@ -198,13 +198,69 @@ ourApp.delete("/book/author/delete/:isbn/:id",(req,res) => {
                if(!book.authors.includes(parseInt(id))){
                     return book;
                };
+               book.authors = book.authors.filter((DatabaseId) => DatabaseId !== parseInt(id));
                return book;
           };
           return book;
      });
 
-     Database
+     Database.Author.forEach((author) => {
+          if(author.id === parseInt(id)){
+               if(!author.books.includes(isbn)){
+                    return author;
+               };
+               author.books= author.books.filter((bookisbn) => bookisbn !== isbn);
+               return author;
+          }
+          return author;
+     } );
+
+     return res.json({book: Database.Book , author : Database.Author});
 });
 
+//rought      : /Author/delete/:id
+//discripton  : delete the Author by id
+//method      : delete
+//params      : id
+ourApp.delete("/author/delete/:id",(req,res) => {
+     const {id} = req.params;
+     const filteredAuthor = Database.Author.filter((author) => author.id !== parseInt(id));
+     Database.Author = filteredAuthor;
+     return res.json({selvabook:Database.Author});
+});
+//rought      : /publication/delete/:id
+//discripton  : delete the publication by id
+//method      : delete
+//params      : id
+ourApp.delete("/publication/delete/:id",(req,res) => {
+     const {id} = req.params;
+     const filteredpublication = Database.Publication.filter((pub) => pub.id !== parseInt(id) );
+     Database.Publication = filteredpublication;
+     return res.json(Database.Publication);
+});
+
+
+
+ourApp.delete("/author/publication/delete/:isbn/:id",(req,res) => {
+     const {isbn,id} = req.params;
+
+     Database.Book.forEach((book) =>{
+          if(book.ISBN === isbn){
+               book.publication = 0;
+               return book;
+          }
+          return book;
+     });
+
+     Database.Publication.forEach((Publication) => {
+          if(Publication.id === id ){
+              const  filteredbooks = Publication.books.filter((book) => book !== isbn);
+               Publication.books = filteredbooks;
+               return Publication;
+          }
+          return Publication;
+     });
+     return res.json({book: Database.Book ,publication: Database.Publication});
+});
 //4000 is port number
 ourApp.listen(4000, () => console.log("server is running....!"));
