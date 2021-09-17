@@ -3,6 +3,9 @@ const express = require("express");
 //database 
 const Database = require("./database");
 
+const MONGO_URI = "mongodb+srv://selvakumar:selvakumar12345@bookapi.ujnn0.mongodb.net/BookApi?retryWrites=true&w=majority"
+
+
 //initialization
 const ourApp = express();
 ourApp.use(express.json());
