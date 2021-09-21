@@ -1,10 +1,24 @@
+require("dotenv").config();
 const express = require("express");
+const mongoose = require('mongoose');
+
+//importing different schema 
+//const book = require('./schema/book');
+//const author = require('./schema/author');
+//const publication = require('./schema/publication');
 
 //database 
 const Database = require("./database");
-
-const MONGO_URI = "mongodb+srv://selvakumar:selvakumar12345@bookapi.ujnn0.mongodb.net/BookApi?retryWrites=true&w=majority"
-
+mongoose.connect(process.env.MONGO_URI ,{
+     /*useNewUrlParser : true,
+     useUniyfiedTopology : true,
+     useFindAndModify : false,
+     useCreateIndex : true*/
+})
+     .then(() => console.log("connection extabilised"))
+     .catch((err) =>{
+          console.log(err);
+     });
 
 //initialization
 const ourApp = express();
